@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "../../components/AdminLayout";
-
-export default function Parishes() {
+import { getApiUrl } from "../../utils/api";
+import apiEndpoints from "../../constants/apiEndpoints";
+export default function AdminParishes() {
   const [parishes, setParishes] = useState([]);
   const [filteredParishes, setFilteredParishes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,7 +27,7 @@ export default function Parishes() {
 
   const fetchParishes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/parishes");
+      const res = await axios.get(`${getApiUrl}${apiEndpoints.PARISH}`);
       setParishes(res.data);
       setFilteredParishes(res.data);
       setLoading(false);
@@ -85,14 +86,14 @@ export default function Parishes() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/api/parishes/${editId}`, formData, {
+        await axios.put(`${getApiUrl}${apiEndpoints.PARISH}${editId}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         });
       } else {
-        await axios.post("http://localhost:5000/api/parishes", formData, {
+        await axios.post(`${getApiUrl}${apiEndpoints.PARISH}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
@@ -127,7 +128,7 @@ export default function Parishes() {
       image: null,
       image_url: entry.image_url || "",
     });
-    setImagePreview(entry.image_url ? `http://localhost:5000${entry.image_url}` : null);
+    setImagePreview(entry.image_url ? `${getApiUrl}${entry.image_url}` : null);
     setEditId(entry.id);
     setIsEditing(true);
     setShowModal(true);
@@ -138,7 +139,7 @@ export default function Parishes() {
     if (!window.confirm("Delete this parish entry?")) return;
     const token = sessionStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:5000/api/parishes/${id}`, {
+      await axios.delete(`${getApiUrl}${apiEndpoints.PARISH}${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setParishes(parishes.filter((p) => p.id !== id));
@@ -229,7 +230,7 @@ export default function Parishes() {
                 <h2 className="text-xl font-semibold text-primary">{entry.title}</h2>
                 {entry.image_url && (
                   <img
-                    src={`http://localhost:5000${entry.image_url}`}
+                    src={`${getApiUrl}${entry.image_url}`}
                     alt={entry.title}
                     className="mt-2 h-32 object-cover rounded"
                   />

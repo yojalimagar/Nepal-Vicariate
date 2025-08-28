@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "../../components/AdminLayout";
-
+import { getApiUrl } from "../../utils/api";
+import apiEndpoints from "../../constants/apiEndpoints";
 // Custom Confirmation Modal Component
 const ConfirmModal = ({ message, onConfirm, onCancel }) => {
   return (
@@ -62,32 +63,35 @@ export default function AdminDirectory() {
     fetchDirectory();
   }, []);
 
-  const fetchDirectory = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/directory");
-      setDirectory(res.data);
-      setFilteredDirectory(res.data);
-      setLoading(false);
-    } catch (err) {
-      console.error("Error loading directory", err);
-      setError("Failed to load directory");
-      setLoading(false);
-    }
-  };
+const fetchDirectory = async () => {
+  try {
+    const res = await axios.get(`${getApiUrl()}${apiEndpoints.DIRECTORY}`);
+    // Sort the data by ID in descending order to show newest entries first
+    const sortedData = res.data.sort((a, b) => b.id - a.id);
+    setDirectory(sortedData);
+    setFilteredDirectory(sortedData);
+    setLoading(false);
+  } catch (err) {
+    console.error("Error loading directory", err);
+    setError("Failed to load directory");
+    setLoading(false);
+  }
+};
 
   // Handle search input change
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
-    const filtered = directory.filter(
-      (entry) =>
-        entry.title.toLowerCase().includes(query) ||
-        (entry.subtitle && entry.subtitle.toLowerCase().includes(query)) ||
-        (entry.email && entry.email.toLowerCase().includes(query)) ||
-        entry.members.some((member) => member.toLowerCase().includes(query))
-    );
-    setFilteredDirectory(filtered);
-  };
+const handleSearch = (e) => {
+  const query = e.target.value.toLowerCase();
+  setSearchQuery(query);
+  const filtered = directory.filter(
+    (entry) =>
+      entry.title.toLowerCase().includes(query) ||
+      (entry.subtitle && entry.subtitle.toLowerCase().includes(query)) ||
+      (entry.email && entry.email.toLowerCase().includes(query)) ||
+      entry.members.some((member) => member.toLowerCase().includes(query))
+  );
+  // Sort filtered results by ID in descending order
+  setFilteredDirectory(filtered.sort((a, b) => b.id - a.id));
+};
 
   // Handle form field changes
   const handleChange = (e) => {
@@ -128,13 +132,13 @@ export default function AdminDirectory() {
     try {
       if (isEditing) {
         const idToEdit = parseInt(editId, 10);
-        await axios.put(`http://localhost:5000/api/directory/${idToEdit}`, dataToSend, {
+        await axios.put(`${getApiUrl()}${apiEndpoints.DIRECTORY}${idToEdit}`, dataToSend, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
       } else {
-        await axios.post("http://localhost:5000/api/directory", dataToSend, {
+        await axios.post(`${getApiUrl()}${apiEndpoints.DIRECTORY}`, dataToSend, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -197,7 +201,7 @@ export default function AdminDirectory() {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/api/directory/${id}`, {
+      await axios.delete(`${getApiUrl()}${apiEndpoints.DIRECTORY}${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       // Optimistically update the UI

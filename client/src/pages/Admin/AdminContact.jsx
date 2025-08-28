@@ -19,7 +19,7 @@ const AdminContact = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`${getApiUrl}${apiEndpoints.CONTACT}`);
+      const response = await axios.get(`${getApiUrl()}${apiEndpoints.CONTACT}`);
       setMessages(response.data);
     } catch (err) {
       console.error('Error fetching contact messages:', err);
@@ -32,7 +32,7 @@ const AdminContact = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this message?')) return;
     try {
-      await axios.delete(`${egtApiUrl}${apiEndpoints.CONTACT}/${id}`);
+      await axios.delete(`${egtApiUrl}${apiEndpoints.CONTACT}${id}`);
       setMessages((prev) => prev.filter((msg) => msg.id !== id));
     } catch (err) {
       console.error('Error deleting message:', err);

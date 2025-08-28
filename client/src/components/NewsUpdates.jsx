@@ -62,7 +62,7 @@ const NewsUpdates = () => {
                 {news.image_url && (
                   <div className="flex justify-center mb-4">
                     <img
-                      src={`http://localhost:5000${news.image_url}`} // Ensure this matches your backend static serve path
+                      src={`${getApiUrl()}${news.image_url}`} // Ensure this matches your backend static serve path
                       alt={news.title}
                       className="w-60 h-auto rounded-md object-cover"
                       onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/100x70/E0E0E0/333333?text=Image"; }}

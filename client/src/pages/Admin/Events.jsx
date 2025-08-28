@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "../../components/AdminLayout";
+import { getApiUrl } from "../../utils/api";
+import apiEndpoints from "../../constants/apiEndpoints";
 
 export default function Event() {
   const [events, setEvents] = useState([]);
@@ -27,7 +29,7 @@ export default function Event() {
 
   const fetchEvents = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/events");
+      const res = await axios.get(`${getApiUrl()}${apiEndpoints.EVENTS}`);
       setEvents(res.data);
       setFilteredEvents(res.data);
       setLoading(false);
@@ -81,16 +83,16 @@ export default function Event() {
 
     try {
       if (isEditing) {
-        console.log("Sending PUT to:", `http://localhost:5000/api/events/${editId}`);
-        await axios.put(`http://localhost:5000/api/events/${editId}`, formData, {
+        console.log("Sending PUT to:", `${getApiUrl()}${apiEndpoints.EVENTS}${editId}`);
+        await axios.put(`${getApiUrl()}${apiEndpoints.EVENTS}${editId}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         });
       } else {
-        console.log("Sending POST to:", "http://localhost:5000/api/events");
-        await axios.post("http://localhost:5000/api/events", formData, {
+        console.log("Sending POST to:", `${getApiUrl()}${apiEndpoints.EVENTS}`);
+        await axios.post(`${getApiUrl()}${apiEndpoints.EVENTS}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
@@ -138,7 +140,7 @@ export default function Event() {
     const token = sessionStorage.getItem("token");
 
     try {
-      await axios.delete(`http://localhost:5000/api/events/${id}`, {
+      await axios.delete(`${getApiUrl()}${apiEndpoints.EVENTS}${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEvents(events.filter((e) => e.id !== id));
@@ -191,7 +193,7 @@ export default function Event() {
               </p>
               {event.image_url && (
                 <img
-                  src={`http://localhost:5000${event.image_url}`}
+                  src={`${getApiUrl()}${event.image_url}`}
                   alt={event.title}
                   className="mt-2 h-32 object-cover rounded"
                 />

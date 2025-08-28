@@ -55,12 +55,12 @@ const LowerHeader = () => {
   };
 
   return (
-    <nav className="bg-blue-400 shadow-lg relative z-40 md:order-1">
+    <nav className="bg-blue-800 shadow-lg  z-40 md:relative fixed order-1  top-0 w-full">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsNavOpen(!isNavOpen)}
-          className="md:hidden text-white focus:outline-none"
+          className=" md:hidden text-white focus:outline-none "
           aria-label="Toggle navigation"
         >
           {isNavOpen ? (
@@ -84,27 +84,31 @@ const LowerHeader = () => {
             </NavLink>
             <ul className={`absolute left-0 mt w-48 bg-white rounded-md shadow-lg py-2 ${activeDropdown === 'vicariate' ? 'block' : 'hidden'} group-hover:block`}>
               <li><DropdownLink to="/vicariate/history" onClick={closeDropdowns}>History</DropdownLink></li>
+              <li><DropdownLink to="/apostolic-vicar" onClick={closeDropdowns}>Apostalic Vicar</DropdownLink></li>
               <li><DropdownLink to="/vicariate/commissions" onClick={closeDropdowns}>Commissions</DropdownLink></li>
-              <li><DropdownLink to="/vicariate/directory" onClick={closeDropdowns}>Directory</DropdownLink></li>
+              <li><DropdownLink to="/vicariate/directory" onClick={closeDropdowns}>Office Of the Vicariate</DropdownLink></li>
+              
             </ul>
           </li>
-
-          <li><NavLink to="/apostolic-vicar" onClick={closeDropdowns}>Apostolic Vicar</NavLink></li>
 
           <li className="relative group">
-            <NavLink
-              to="/parishes"
-              onClick={() => toggleDropdown('parishes')}
-              className="flex items-center"
-            >
-              Parishes & Schools <svg className="ml-2 w-3 h-3 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+            <NavLink 
+            to="/apostolic-vicar  " 
+            onClick={() => toggleDropdown('Deaneries')}
+            className="flex items-center"
+            >Deaneries<svg className="ml-2 w-3 h-3 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
             </NavLink>
-            <ul className={`absolute left-0  w-48 bg-white rounded-md shadow-lg py-2 ${activeDropdown === 'parishes' ? 'block' : 'hidden'} group-hover:block`}>
-              <li><DropdownLink to="/parishes/list" onClick={closeDropdowns}>Parishes</DropdownLink></li>
-              <li><DropdownLink to="/schools" onClick={closeDropdowns}>Schools</DropdownLink></li>
-              <li><DropdownLink to="/institutions" onClick={closeDropdowns}>Institutions</DropdownLink></li>
+            <ul className={`absolute left-0 mt w-48 bg-white rounded-md shadow-lg py-2 ${activeDropdown === 'Deaneries' ? 'block' : 'hidden'} group-hover:block`}>
+              <li><DropdownLink to="/deanaries/purwanchal" onClick={closeDropdowns}>Purwanchal Deanery</DropdownLink></li>
+              <li><DropdownLink to='/deanaries/central' onClick={closeDropdowns}>Central Deanery (Kathmandu)</DropdownLink></li>
+              <li><DropdownLink to='/deanaries/midwest' onClick={closeDropdowns}>Mid-West Deanery</DropdownLink></li>
+              <li><DropdownLink to='/deanaries/farwest' onClick={closeDropdowns}>Far-West Deanery</DropdownLink></li>
+              
             </ul>
-          </li>
+            </li>
+          
+
+          
 
           <li><NavLink to="/news" onClick={closeDropdowns}>News & Media</NavLink></li>
           <li><NavLink to="/contact" onClick={closeDropdowns}>Contact</NavLink></li>

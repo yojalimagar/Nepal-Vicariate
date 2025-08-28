@@ -118,9 +118,11 @@ const HeroSlider = () => {
             The Apostolic Vicariate of Nepal
           </h3>
           <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed">
-            The Apostolic Vicariate of Nepal is a territorial jurisdiction of the Catholic Church covering the countries of the United Arab Emirates, the Sultanate of Oman, and the Republic of Yemen. The Apostolic Vicar is Bishop Paolo Martinelli OFM Cap., who hails from Italy, and has his seat in Abu Dhabi, the capital of the United Arab Emirates.{' '}
+            The Apostolic Vicariate of Nepal (Latin: Vicariatus Apostolicus Nepalianus) is the sole Latin‑rite Catholic jurisdiction covering the entire country of Nepal. 
+            It is immediately subject to the Holy See and led by an Apostolic Vicar who exercises episcopal authority across the nation.
+            Despite its small Catholic population, the Apostolic Vicariate of Nepal represents the maturity of a local Church recognized by the Vatican <center>{' '}</center>
             <a
-              href="#"
+              href="/vicariate/history"
               className="text-primary hover:underline transition-colors duration-200"
               aria-label="Read more about the Apostolic Vicariate"
             >
