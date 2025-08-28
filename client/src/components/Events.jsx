@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getApiUrl } from '../utils/api';
+import apiEndpoints from '../constants/apiEndpoints';
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -10,7 +11,7 @@ const Events = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`${getApiUrl()}/events`);
+        const response = await axios.get(`${getApiUrl()}${apiEndpoints.EVENTS}`);
         const data = response.data;
 
         const formattedEvents = data.map(event => ({
@@ -62,16 +63,16 @@ const Events = () => {
   }
 
   return (
-    <section className="bg-white py-8 px-4 sm:px-6 lg:px-8">
+    <section className="bg-gray-300 py-8 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-5xl ">
-        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-center mb-12 sm:mb-8">
-          Upcoming Events
+        <h2 className=" bg-blue-400 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-center mb-12 sm:mb-8">
+         Vicariate Upcoming Events
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6">
           {events.map((event) => (
             <div
               key={event.id}
-              className="bg-gray-50 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transition-shadow duration-200 flex items-start justify-between"
+              className="bg-gray-200 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transition-shadow duration-200 flex items-start justify-between"
             >
               <div className="flex-1 text-left"> {/* Align all text content to the left */}
                 <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-2">
@@ -91,7 +92,7 @@ const Events = () => {
                 </p>
                 <a
                   href="#"
-                  className="inline-block bg-blue-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-md hover:bg-blue-700 transition-colors duration-200 text-sm sm:text-base"
+                  className="inline-block bg-blue-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-md hover:bg-blue-700 transition-colors duration-200 text-sm sm:text-base"
                   aria-label={`Learn more about ${event.title}`}
                 >
                   Learn More
@@ -99,7 +100,7 @@ const Events = () => {
               </div>
               {event.image_url && (
                 <img
-                  src={`http://localhost:5000${event.image_url}`}
+                  src={`${getApiUrl()}${event.image_url}`}
                   alt={event.title}
                   className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg object-cover flex-shrink-0 ml-0" // Margin-left to separate from text
                 />

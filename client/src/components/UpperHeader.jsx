@@ -10,7 +10,7 @@ export default function UpperHeader() {
   };
 
   return (
-    <div className="bg-white text-gray-800 py-6 px-4 sm:px-6 lg:px-8 shadow-sm md:order-2">
+    <div className="bg-white text-gray-800 py-6 px-4 sm:px-6 lg:px-8 shadow-sm md:order-2 pt-14">
       <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Logo and Text */}
         <div className="flex flex-col sm:flex-row items-center text-center sm:text-left mb-4 md:mb-0">

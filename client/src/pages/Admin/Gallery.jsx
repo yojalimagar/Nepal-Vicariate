@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "../../components/AdminLayout";
-
+import { getApiUrl } from "../../utils/api";
+import apiEndpoints from "../../constants/apiEndpoints";
 export default function Gallery() {
   const [galleryItems, setGalleryItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -29,7 +30,7 @@ export default function Gallery() {
 
   const fetchGallery = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/gallery");
+      const res = await axios.get(`${getApiUrl}${apiEndpoints.GALLERY}`);
       console.log("Fetched gallery items:", res.data);
       const validItems = res.data.filter(item => !isNaN(item.id) && item.id !== "bulk");
       if (validItems.length !== res.data.length) {
@@ -132,7 +133,7 @@ const handleCheckboxToggle = (id) => {
       if (isEditing) {
         // For editing, we still send a single update request for one item
         // The backend will handle if a new image is provided or the old one is kept
-        const res = await axios.put(`http://localhost:5000/api/gallery/${editId}`, formData, {
+        const res = await axios.put(`${getApiUrl}${apiEndpoints.GALLERY}${editId}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
@@ -141,7 +142,7 @@ const handleCheckboxToggle = (id) => {
         console.log("Update response:", res.data);
       } else {
         // For new additions, we send a single request but expect multiple files on the backend
-        const res = await axios.post("http://localhost:5000/api/gallery", formData, {
+        const res = await axios.post(`${getApiUrl}${apiEndpoints.GALLERY}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
@@ -194,7 +195,7 @@ const handleCheckboxToggle = (id) => {
     console.log("Deleting single item ID:", id);
     const token = sessionStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:5000/api/gallery/${id}`, {
+      await axios.delete(`${getApiUrl}${apiEndpoints.GALLERY}${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       await fetchGallery();
@@ -221,7 +222,7 @@ const handleCheckboxToggle = (id) => {
     if (!window.confirm(`Delete ${selectedItems.length} selected gallery item(s)?`)) return;
     const token = sessionStorage.getItem("token");
     try {
-      await axios.delete("http://localhost:5000/api/gallery/bulk", {
+      await axios.delete(`${getApiUrl}${apiEndpoints.GALLERY}/bulk`, {
         headers: { Authorization: `Bearer ${token}` },
         data: { ids: selectedItems },
       });
@@ -291,7 +292,7 @@ const handleCheckboxToggle = (id) => {
                   className="absolute top-2 left-2 h-5 w-5"
                 />
                 <img
-                  src={`http://localhost:5000${item.image_url}`}
+                  src={`${getApiUrl}${item.image_url}`}
                   alt={item.title}
                   className="w-full h-48 object-cover rounded"
                   onError={() => console.error("Image failed to load:", item.image_url)}
@@ -352,7 +353,7 @@ const handleCheckboxToggle = (id) => {
                   {imagePreviews.map((src, index) => (
                     <img
                       key={index}
-                      src={isEditing && !form.images.length ? `http://localhost:5000${src}` : src}
+                      src={isEditing && !form.images.length ? `${getApiUrl}${src}` : src}
                       alt={`Preview ${index + 1}`}
                       className="h-32 object-cover rounded"
                     />

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "../../components/AdminLayout";
-
+import {getApiUrl} from "../../utils/api";
+import apiEndpoints from "../../constants/apiEndpoints";
 export default function News() {
   const [news, setNews] = useState([]);
   const [filteredNews, setFilteredNews] = useState([]);
@@ -93,7 +94,7 @@ export default function News() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/api/news/${editId}`, formData, {
+        await axios.put(`${getApiUrl()}${apiEndpoints.NEWS}${editId}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
@@ -142,7 +143,7 @@ export default function News() {
     const formattedDate = newsItem.publish_date ? new Date(newsItem.publish_date).toISOString().split('T')[0] : '';
     setForm(prevForm => ({ ...prevForm, publish_date: formattedDate }));
 
-    setImagePreview(newsItem.image_url ? `http://localhost:5000${newsItem.image_url}` : null);
+    setImagePreview(newsItem.image_url ? `${getApiUrl()}${newsItem.image_url}` : null);
     setEditId(newsItem.id);
     setIsEditing(true);
     setShowModal(true);
@@ -153,7 +154,7 @@ export default function News() {
     if (!window.confirm("Delete this news article?")) return;
     const token = sessionStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:5000/api/news/${id}`, {
+      await axios.delete(`${getApiUrl()}${apiEndpoints.NEWS}${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNews(news.filter((n) => n.id !== id));
@@ -252,7 +253,7 @@ export default function News() {
                 )}
                 {newsItem.image_url && (
                   <img
-                    src={`http://localhost:5000${newsItem.image_url}`}
+                    src={`${getApiUrl()}${newsItem.image_url}`}
                     alt={newsItem.title}
                     className="mt-2 h-32 object-cover rounded"
                   />

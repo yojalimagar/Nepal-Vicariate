@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { getApiUrl } from '../../utils/api';
+import apiEndpoints from '../../constants/apiEndpoints';
 import UpperHeader from '../../components/UpperHeader';
 import LowerHeader from '../../components/LowerHeader';
 import Footer from '../../components/Footer';
@@ -27,7 +29,7 @@ const ContactUs = () => {
     setLoading(true);
     setStatus(null);
     try {
-      const response = await axios.post('http://localhost:5000/api/contact', formData);
+      const response = await axios.post(`${getApiUrl()}${apiEndpoints.CONTACT}`, formData);
       setStatus({ type: 'success', message: response.data.message });
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {

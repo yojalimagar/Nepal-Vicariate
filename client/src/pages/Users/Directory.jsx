@@ -4,6 +4,8 @@ import UpperHeader from '../../components/UpperHeader';
 import LowerHeader from '../../components/LowerHeader';
 import Footer from '../../components/Footer';
 import Sidebar from '../../components/Sidebar';
+import { getApiUrl } from '../../utils/api';
+import apiEndpoints from '../../constants/apiEndpoints';
 
 // Main Directory component that renders the Vicariate Directory
 const Directory = () => {
@@ -30,7 +32,7 @@ const Directory = () => {
     const fetchDirectoryData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/api/directory');
+        const response = await axios.get(`${getApiUrl()}${apiEndpoints.DIRECTORY}`);
         console.log('Fetched directory data:', response.data); // Debug: Log raw data
         setDirectoryData(response.data);
         setLoading(false);
@@ -54,7 +56,7 @@ const Directory = () => {
 
   // Group data by region
   const groupedData = directoryData.reduce((acc, entry) => {
-    const region = entry.region || 'UNITED ARAB EMIRATES';
+    const region = entry.region || 'NEPAL';
     if (!acc[region]) {
       acc[region] = [];
     }
@@ -64,7 +66,7 @@ const Directory = () => {
 
   console.log('Grouped data:', groupedData); // Debug: Log grouped data
 
-  const regions = [...new Set(directoryData.map(entry => entry.region || 'UNITED ARAB EMIRATES'))];
+  const regions = [...new Set(directoryData.map(entry => entry.region || 'NEPAL'))];
 
   return (
     <>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "../../components/AdminLayout"; // Assuming this path is correct
-
+import { getApiUrl } from "../../utils/api";
+import apiEndpoints from "../../constants/apiEndpoints";
 export default function Videos() {
   const [videos, setVideos] = useState([]);
   const [filteredVideos, setFilteredVideos] = useState([]);
@@ -54,7 +55,7 @@ export default function Videos() {
   const fetchVideos = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/videos");
+      const res = await axios.get(`${getApiUrl()}${apiEndpoints.VIDEOS}`);
       setVideos(res.data);
       setFilteredVideos(res.data);
       setLoading(false);
@@ -101,13 +102,13 @@ export default function Videos() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/api/videos/${editId}`, form, {
+        await axios.put(`${getApiUrl()}${apiEndpoints.VIDEOS}/${editId}`, form, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
       } else {
-        await axios.post("http://localhost:5000/api/videos", form, {
+        await axios.post(`${getApiUrl()}${apiEndpoints.VIDEOS}`, form, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -158,7 +159,7 @@ export default function Videos() {
 
     const token = sessionStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:5000/api/videos/${id}`, {
+      await axios.delete(`${getApiUrl}${apiEndpoints.VIDEOS}${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setVideos(videos.filter((v) => v.id !== id));

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Using axios for consistency with other components
+import { getApiUrl } from '../utils/api';
+import apiEndpoints from '../constants/apiEndpoints';
 
 const VideoUpdates = () => {
   const [videos, setVideos] = useState([]);
@@ -36,7 +38,7 @@ const VideoUpdates = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/videos'); // Fetch from your video API endpoint
+        const response = await axios.get(`${getApiUrl()}${apiEndpoints.VIDEOS}`); // Fetch from your video API endpoint
         setVideos(response.data);
       } catch (err) {
         console.error("Error fetching videos:", err);
